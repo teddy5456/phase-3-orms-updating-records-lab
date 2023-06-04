@@ -9,6 +9,8 @@ class Student
     @grade = grade
   end
 
+  
+
   def self.create_table
     sql = <<-SQL
       CREATE TABLE IF NOT EXISTS students (
@@ -37,26 +39,30 @@ class Student
     end
   end
 
-  def self.create(name, grade)
-    student = Student.new(name, grade)
-    student.save
-    student
-  end
+
+
+    def self.create(name, grade)
+      student = Student.new(name, grade)
+      student.save
+      student
+    end
 
   def self.new_from_db(row)
-    id, name, grade = row
+    id,  name, grade = row
     Student.new(name, grade, id)
   end
 
   def self.find_by_name(name)
     sql = "SELECT * FROM students WHERE name = ? LIMIT 1"
-    result = DB[:conn].execute(sql, name)[0]
+    result = DB[:conn]. execute(sql, name)[0]
     if result
       self.new_from_db(result)
     else
       nil
     end
   end
+
+
 
   def update
     sql = "UPDATE students SET name = ?, grade = ? WHERE id = ?"
